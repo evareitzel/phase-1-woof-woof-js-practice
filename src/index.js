@@ -11,7 +11,7 @@ function dogNameBtnClickHandler(e, id){
 }
 
 function showInfo(pup){
-  // console.log(pup)
+  console.log(pup)
   const dogInfo = document.querySelector('#dog-info')
 
   const infoImg = document.createElement('img')
@@ -21,6 +21,7 @@ function showInfo(pup){
   infoTitle.innerText = pup.name
 
   const goodDogBtn = document.createElement('button')
+  goodDogBtn.dataset.id = pup.id
   goodDogBtn.innerText = pup.isGoodDog ? 'Good Dog!' : 'Bad Dog!'
   goodDogBtn.addEventListener("click", goodDogBtnClickHandler)
 
@@ -28,7 +29,6 @@ function showInfo(pup){
 }
 
 function goodDogBtnClickHandler(e){
-  console.log(e.target.dataset)
   let newValue;
   if(e.target.innerText.includes('Good')){
     e.target.innerText = 'Bad Dog!'
@@ -60,6 +60,7 @@ function getOneDog(id){
 }
 
 function updateGoodDog(id, newValue){
+  console.log(id)
   fetch(`http://localhost:3000/pups/${id}`, {
     method: 'PATCH',
     headers: {
@@ -93,7 +94,7 @@ function updateGoodDog(id, newValue){
   // h2 w dog's name
   // button saying 'Good Dog!' or 'Bad Dog!' based on iSGoodDog
 
-  // Challenge 4: Toggle Good Dog
+  // Challenge 4: Toggle Good Dog ✅
   // Change button btw Good & Bad
   // update DB to reflect isGoodDog value
     // add click event listener
