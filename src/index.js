@@ -7,11 +7,11 @@ function addNameToDogBar(pup) {
 
 function dogNameBtnClickHandler(e, id){
   // console.log(e.target.value)
-  console.log(e.target.innerText)
   getOneDog(id)
 }
 
 function showInfo(pup){
+  // console.log(pup)
   const dogInfo = document.querySelector('#dog-info')
 
   const infoImg = document.createElement('img')
@@ -22,17 +22,23 @@ function showInfo(pup){
 
   const goodDogBtn = document.createElement('button')
   goodDogBtn.innerText = pup.isGoodDog ? 'Good Dog!' : 'Bad Dog!'
+  goodDogBtn.addEventListener("click", goodDogBtnClickHandler)
 
   dogInfo.append(infoImg, infoTitle, goodDogBtn)
 }
 
-// dogBtn.addEventListener("click", goodDogBtnClickHandler)
-
-
-// function goodDogBtnClickHandler(e){
-  // ternerary good/Bad
-  // goodDogBtn.innerText = 'Good Dog' ? 'Bad Dog' : 'Good Dog'
-// }
+function goodDogBtnClickHandler(e){
+  console.log(e.target.dataset)
+  let newValue;
+  if(e.target.innerText.includes('Good')){
+    e.target.innerText = 'Bad Dog!'
+    newValue = false
+  } else {
+    e.target.innerText = 'Good Dog!'
+    newValue = true
+  }
+  updateGoodDog(e.target.dataset.id, newValue)
+  }
 
 // Fetches
 
@@ -53,15 +59,19 @@ function getOneDog(id){
   })
 }
 
-  // function updateGoodOrBad(){
-  //   fetch('http://localhost:3000/pups')
-  //   .then(resp => resp.json())
-  //   .then((data) => {
-  //     // Is PATCH request
-  //     // Header
-  //     // Body
-  //   })
-  // }
+function updateGoodDog(id, newValue){
+  fetch(`http://localhost:3000/pups/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      isGoodDog: newValue
+    })
+  })
+  .then(resp => resp.json())
+  .then(data => console.log(data))
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     getPupData()
